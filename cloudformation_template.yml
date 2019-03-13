@@ -778,7 +778,7 @@ Resources:
           yum install filebeat -y
           cp conf/filebeat.yml /etc/filebeat/
           chkconfig --add filebeat
-          systemctl restart filebeat
+          service filebeat restart
           yum install -y aws-cfn-bootstrap
           /opt/aws/bin/cfn-init -v --stack ${AWS::StackId} --resource LaunchConfig --configsets cfn_install --region ${AWS::Region}
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackId} --resource WebServerGroup --region ${AWS::Region}
