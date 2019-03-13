@@ -761,6 +761,7 @@ Resources:
       UserData: 
         Fn::Base64: !Sub |
           #!/bin/bash
+          rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
           yum update -y
           yum install epel-release -y
           yum install nginx -y
@@ -769,10 +770,14 @@ Resources:
           git clone https://github.com/arifurreza/DevOps-Tech-Challenge.git
           cd DevOps-Tech-Challenge/
           cp conf/sktest.conf /etc/nginx/conf.d/
+          cp conf/elastic.repo /etc/yum.repos.d/
           sed -i 's/\<80\>/81/' /etc/nginx/nginx.conf
           service nginx start
           wget https://raw.githubusercontent.com/logzio/public-certificates/master/COMODORSADomainValidationSecureServerCA.crt && sudo mkdir -p /etc/pki/tls/certs && sudo mv COMODORSADomainValidationSecureServerCA.crt /etc/pki/tls/certs/
+          yum update -y
+          yum install filebeat
           cp conf/filebeat.yml /etc/filebeat/
+          chkconfig --add filebeat
           systemctl restart filebeat
           yum install -y aws-cfn-bootstrap
           /opt/aws/bin/cfn-init -v --stack ${AWS::StackId} --resource LaunchConfig --configsets cfn_install --region ${AWS::Region}
