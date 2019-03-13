@@ -775,7 +775,7 @@ Resources:
           service nginx start
           wget https://raw.githubusercontent.com/logzio/public-certificates/master/COMODORSADomainValidationSecureServerCA.crt && sudo mkdir -p /etc/pki/tls/certs && sudo mv COMODORSADomainValidationSecureServerCA.crt /etc/pki/tls/certs/
           yum update -y
-          yum install filebeat
+          yum install filebeat -y
           cp conf/filebeat.yml /etc/filebeat/
           chkconfig --add filebeat
           systemctl restart filebeat
